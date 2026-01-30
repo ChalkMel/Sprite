@@ -22,6 +22,7 @@ namespace _Source
         
         private Random _random;
         private int _height;
+        private int _tempHeight;
         private int _width;
         private int _gap;
         private int _offset;
@@ -31,6 +32,7 @@ namespace _Source
             _offset = 0;
             new Random().Next();
             CreatePlatform();
+            _tempHeight = 0;
         }
 
         private void CreatePlatform()
@@ -38,6 +40,8 @@ namespace _Source
             for (int i = 0; i < platformCount; i++)
             {
                 _height = _random.Next(minHeight, maxHeight + 1);
+                while (_height == _tempHeight)
+                    _height = _random.Next(minHeight, maxHeight + 1);
                 _gap = _random.Next(minGap, maxGap + 1);
                 _width = _random.Next(minWidth, maxWidth + 1);
                 int platformStart = _offset + _gap;
@@ -54,6 +58,7 @@ namespace _Source
                     tilemap.SetTile(new Vector3Int(x, _height, 0), usedTile);
                 }
                 _offset = platformStart + _width;
+                _tempHeight = _height;
             }
         }
     }
